@@ -1,0 +1,43 @@
+# lnmp
+
+nginx:
+  image: nginx:latest
+  container_name: nginx
+  hostname: nginx
+  ports:
+    - "80:80"
+  volumes:
+    - /data/www:/www
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+  links:
+    - php:PHP-FPM
+
+php:
+  image: php:7.2.2-fpm
+  container_name: php
+  hostname: php
+  ports:
+    - "9000"
+  links:
+    - mysql:mysql
+    - redis:redis
+  volumes:
+    - /data/www:/www
+
+mysql:
+   image: mysql:5.7
+   container_name: mysql
+   hostname: mysql
+   ports:
+     - "3306:3306"
+   environment:
+    - MYSQL_ROOT_PASSWORD=root
+
+redis:
+  image: redis:4
+  container_name: redis
+  hostname: redis
+  ports:
+    - "6379:6379"
+  
