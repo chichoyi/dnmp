@@ -1,20 +1,23 @@
 # lnmp
 
-nginx:
-  image: nginx:latest
-  container_name: nginx
-  hostname: nginx
+mysql:
+  image: mysql:5.7
+  container_name: mysql
+  hostname: mysql
   ports:
-    - "80:80"
-  volumes:
-    - /data/www:/www
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
-  links:
-    - php:PHP-FPM
+  - "3306:3306"
+  environment:
+  - MYSQL_ROOT_PASSWORD=root
+
+redis:
+  image: redis:4
+  container_name: redis
+  hostname: redis
+  ports:
+  - "6379:6379"
 
 php:
-  image: php:7.2.2-fpm
+  build: ./phpfpm
   container_name: php
   hostname: php
   ports:
@@ -23,21 +26,20 @@ php:
     - mysql:mysql
     - redis:redis
   volumes:
-    - /data/www:/www
+    - /Users/chenyinshan/code:/www
 
-mysql:
-   image: mysql:5.7
-   container_name: mysql
-   hostname: mysql
-   ports:
-     - "3306:3306"
-   environment:
-    - MYSQL_ROOT_PASSWORD=root
-
-redis:
-  image: redis:4
-  container_name: redis
-  hostname: redis
+nginx:
+  image: nginx:latest
+  container_name: nginx
+  hostname: nginx
   ports:
-    - "6379:6379"
+  - "80:80"
+  volumes:
+  - /Users/chenyinshan/code:/www
+  - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+  links:
+  - php:PHP-FPM
+
+
   
