@@ -75,6 +75,12 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
     //如果没有目录的话请自己创建相关目录
     
  第一次执行需要花点时间下载镜像
+ php连接mysql需要在本机hosts文件添加域名映射，例如：
+ 127.0.0.1 mysql
+ 127.0.0.1 nginx
+ 127.0.0.1 php
+ 127.0.0.1 redis
+ 这样就不用去查找mysql的容器的IP了
  
  ## tip
  
