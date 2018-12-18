@@ -15,4 +15,10 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$P
     && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
     && docker-php-ext-install pdo pdo_mysql \
+#    && curl -l https://pecl.php.net/get/amqp-1.9.3.tgz | tar xvz -C /usr/src/php/ext/amqp --strip 1 \
+#    && /usr/src/php-available-exts \
+#    && cp /usr/src/rabbitmq-c/librabbitmq/amqp_ssl_socket.h /usr/src/php/ext/amqp/ \
+#    && docker-php-ext-configure amqp --with-librabbitmq-dir=/usr/local/rabbitmq-c \
+#    && docker-php-ext-install amqp \
+#    && php -m | grep amqp \
     && rm -rf /usr/src/php

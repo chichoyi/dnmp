@@ -6,6 +6,10 @@ mysql:
   hostname: mysql
   ports:
   - "3306:3306"
+  volumes:
+  - ./mysql/data:/var/lib/mysql
+  - ./mysql/conf:/etc/mysql/conf.d
+  - ./mysql/logs:/logs
   environment:
   - MYSQL_ROOT_PASSWORD=root
 
