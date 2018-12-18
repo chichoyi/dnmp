@@ -72,6 +72,8 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
     
     docker-compose up -d
     
+    //如果没有目录的话请自己创建相关目录
+    
  第一次执行需要花点时间下载镜像
  
  ## tip
