@@ -30,9 +30,11 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
         - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
       links:
         - php:PHP-FPM  # php容器的别名，nginx发送给php需要用到的，默认即可
-    
+      networks:
+        - lnmp
+      
     php:
-      image: php:7.2.2-fpm  # 镜像版本，可以自己指定，只要镜像仓库拉得到就行
+      build: ./phpfpm  # Dockerfile 文件地址
       container_name: php
       hostname: php
       ports:
@@ -42,24 +44,35 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
         - redis:redis
       volumes:
         - /data/www:/www  # /data/www 这个是宿主机的目录，可以修改指向你的代码文件夹，比如 /mnt/hgfs/www
+        - ./phpfpm/conf/:/usr/local/etc/php/conf.d
+      networks:
+        - lnmp
         
         # 注意，nginx和php挂载出来的宿主机目录一定要一致(/data/www)，不然没法访问php文件
     
     mysql:
-       image: mysql:5.7
-       container_name: mysql
-       hostname: mysql
-       ports:
-         - "3306:3306"
-       environment:
+      image: mysql:5.7
+      container_name: mysql
+      hostname: mysql
+      ports:
+        - "3306:3306"
+      environment:
         - MYSQL_ROOT_PASSWORD=root  #数据库的初始化密码，这里可以指定修改成你自己的
-    
+        networks:
+          - lnmp
+            
     redis:
       image: redis:4
       container_name: redis
       hostname: redis
       ports:
         - "6379:6379"
+      networks:
+        - lnmp
+        
+    networks:
+      lnmp:
+        driver: bridge
    
    
  ## 修改完之后执行命令
@@ -84,5 +97,5 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
  
  ## tip
  
-   使用的都是官方的镜像，后面有时间再自己构建轻量级的docker镜像，如有疑问，欢迎提出指正
+   使用的都是官方的镜像，如有疑问，欢迎提出指正
    

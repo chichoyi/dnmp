@@ -40,6 +40,7 @@ services:
       - redis:redis
     volumes:
       - /Users/chenyinshan/code:/www
+      - ./phpfpm/conf/:/usr/local/etc/php/conf.d
     networks:
       - lnmp
 
