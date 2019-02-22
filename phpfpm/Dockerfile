@@ -27,7 +27,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd
 
 # for grpc extention
-RUN  apt-get update \
-    && apt-get install -y libmemcached-dev zlib1g-dev \
+RUN  apt-get install -y libmemcached-dev zlib1g-dev \
     && pecl install grpc \
     && rm -rf /usr/src/php
