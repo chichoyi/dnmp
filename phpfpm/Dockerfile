@@ -15,7 +15,8 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$P
     && mkdir -p /usr/src/php/ext \
     && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
-    && docker-php-ext-install pdo pdo_mysql
+    && docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-install bcmath
 
 #for gd
 RUN apt-get update && apt-get install -y \
@@ -27,6 +28,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd
 
 # for grpc extention
-RUN  apt-get install -y libmemcached-dev zlib1g-dev \
+RUN  apt-get install -y \
+    libmemcached-dev zlib1g-dev \
     && pecl install grpc \
+    && pecl install protobuf \
     && rm -rf /usr/src/php
