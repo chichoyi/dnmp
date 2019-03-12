@@ -80,6 +80,10 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
     cd dnmp
     
     docker-compose build
+    
+    # 修改代码目录
+    vi docker-compose.yml
+    # 把42行和54行的 /Users/chenyinshan/code 修改为你本机的代码目录
 
     cp nginx/demo.conf nginx/conf.d/defualt.conf
 
@@ -91,13 +95,41 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
     
  第一次执行需要花点时间下载镜像
  php连接mysql需要在本机hosts文件添加域名映射，例如：
- 127.0.0.1 mysql
- 127.0.0.1 nginx
- 127.0.0.1 php
- 127.0.0.1 redis
+ 
+    127.0.0.1 mysql
+    127.0.0.1 nginx
+    127.0.0.1 php
+    127.0.0.1 redis
+ 
  这样就不用去查找mysql的容器的IP了
+  
+    # docker-compose up -d 的时候可能一些服务没有跑起来，
+    # 比如mysql，可能你给的dnmp目录权限不够，要给充足权限
+    
+    sudo chmod -R 777 dnmp
+    
+## 命令参考
+
+    # 你自己修改了docker-compose文件或Dockerfile文件的话，请执行
+    docker-compose build
+    
+    # 开启 dnmp 服务
+    docker-compose up -d
+    
+    # 重启 dnmp 服务
+    docker-compose restart
+    
+    # 关闭 dnmp 服务
+    docker-compose down
+    
+    # 如果修改或增加了 nginx 服务配置
+    docker restart nginx
  
  ## tip
  
-   使用的都是官方的镜像，如有疑问，欢迎提出指正
+   使用的都是官方的镜像，如有疑问，欢迎提出指正,
+ 
+ ## contact me
+ 
+ email: chichoyi@163.com
    
