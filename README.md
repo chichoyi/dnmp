@@ -2,7 +2,7 @@
 docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
 
 ## 前言
-  使用前，默认你已经安装了 docker 和 docker-compose
+  使用前，默认你已经安装了 [docker](https://www.jianshu.com/search?q=docker%E5%AE%89%E8%A3%85&page=1&type=note) 和 [docker-compose](https://www.jianshu.com/p/f323aa0416da)
 
 ## 先使用阿里云镜像加速器
  
