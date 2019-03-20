@@ -41,6 +41,7 @@ services:
     volumes:
       - /Users/chenyinshan/code:/www
       - ./phpfpm/conf/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./composer:/data
     networks:
       - lnmp
 
