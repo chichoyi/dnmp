@@ -108,6 +108,15 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
     
     sudo chmod -R 777 dnmp
     
+## 如何composer安装php项目依赖包
+
+    docker run --rm --interactive --tty \
+    --volume $PWD:/app \
+    composer install --ignore-platform-reqs --no-scripts
+    
+- docker 会自动拉取composer镜像然后在当前目录执行composer命令
+- --ignore-platform-reqs --no-scripts 这条命令是忽略扩展要求
+
 ## 命令参考
 
     # 你自己修改了docker-compose文件或Dockerfile文件的话，请执行
