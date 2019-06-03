@@ -117,6 +117,10 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4
 - docker 会自动拉取composer镜像然后在当前目录执行composer命令
 - --ignore-platform-reqs --no-scripts 这条命令是忽略扩展要求
 
+## php安装扩展参考
+
+- [简书有人整理的安装扩展](https://www.jianshu.com/p/20fcca06e27e)
+
 ## 命令参考
 
     # 你自己修改了docker-compose文件或Dockerfile文件的话，请执行
