@@ -34,6 +34,12 @@ RUN  apt-get install -y \
     && pecl install protobuf \
     && rm -rf /usr/src/php
 
+# for zip
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libzip-dev \
+    && rm -r /var/lib/apt/lists/* \
+    && docker-php-ext-install -j$(nproc) zip
+
 
 #for rabbitmq
 RUN apt-get -qq update && apt-get -qq -y install  \
