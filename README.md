@@ -1,6 +1,6 @@
-# dnmp
+# why
 
-docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4 + ...
+什么都可以docker化，docker化的环境开发、测试、部署等等，最后来个k8s管理更帅
 
 ## 前言
   使用前，默认你已经安装了 [docker](https://www.jianshu.com/search?q=docker%E5%AE%89%E8%A3%85&page=1&type=note) 和 [docker-compose](https://www.jianshu.com/p/f323aa0416da)
@@ -17,7 +17,9 @@ docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4 + ...
 
 ### 修改docker-compose.yml
 
- 这里会说明一些参数
+- docker搭建lnmp环境，php 7.2 + nginx latest + mysql 5.7 + redis 4 + ...
+
+ 参数说明
  
     nginx:
       image: nginx:latest
