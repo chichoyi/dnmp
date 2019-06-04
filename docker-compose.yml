@@ -7,27 +7,27 @@ services:
     container_name: mysql
     hostname: mysql
     ports:
-    - "3306:3306"
+      - "3306:3306"
     volumes:
-    - ./mysql/data:/var/lib/mysql
-    - ./mysql/conf:/etc/mysql/conf.d
-    - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
     environment:
-    - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
     networks:
-    - lnmp
+      - lnmp
 
   redis:
     image: redis:4
     container_name: redis
     hostname: redis
     volumes:
-    - ./redis/data:/data
-    - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
-    - "6379:6379"
+      - "6379:6379"
     networks:
-    - lnmp
+      - lnmp
 
   php:
     build: ./phpfpm
@@ -50,15 +50,91 @@ services:
     container_name: nginx
     hostname: nginx
     ports:
-    - "80:80"
+      - "80:80"
     volumes:
-    - /Users/chenyinshan/code:/www
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+      - /Users/chenyinshan/code:/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
     links:
-    - php:PHP-FPM
+      - php:PHP-FPM
+    networks:
+      - lnmp
+
+  kong-migrations:
+    image: "${KONG_DOCKER_TAG:-kong:latest}"
+    command: kong migrations bootstrap
+    depends_on:
+      - db
+#        condition: service_healthy
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
+      KONG_PG_HOST: db
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
+      KONG_PG_USER: ${KONG_PG_USER:-kong}
+    links:
+    - db:db
     networks:
     - lnmp
+    restart: on-failure
+
+  kong:
+    image: "${KONG_DOCKER_TAG:-kong:latest}"
+    container_name: kong
+    hostname: kong
+    user: "${KONG_USER:-root}"
+    depends_on:
+      - db
+#      - condition: service_healthy
+    environment:
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: '0.0.0.0:8001, 0.0.0.0:8444 ssl'
+      KONG_CASSANDRA_CONTACT_POINTS: db
+      KONG_DATABASE: postgres
+      KONG_PG_DATABASE: ${KONG_PG_DATABASE:-kong}
+      KONG_PG_HOST: db
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD:-kong}
+      KONG_PG_USER: ${KONG_PG_USER:-kong}
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+    volumes:
+    - ./kong/logs:/usr/local/kong/logs
+    networks:
+    - lnmp
+    ports:
+    - "8000:8000/tcp"
+    - "8001:8001/tcp"
+    - "8443:8443/tcp"
+    - "8444:8444/tcp"
+    restart: on-failure
+
+  db:
+    image: postgres:9.5
+    environment:
+      POSTGRES_DB: ${KONG_PG_DATABASE:-kong}
+      POSTGRES_PASSWORD: ${KONG_PG_PASSWORD:-kong}
+      POSTGRES_USER: ${KONG_PG_USER:-kong}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${KONG_PG_USER:-kong}"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    restart: on-failure
+    stdin_open: true
+    tty: true
+    networks:
+    - lnmp
+    volumes:
+    - ./kongdata:/var/lib/postgresql/data
+
+  kong-admin-ui:
+    image: pocketdigi/kong-admin-ui:0.3.1
+    ports:
+    - "8899:80"
+    networks:
+    - lnmp
+
 
 networks:
   lnmp:
