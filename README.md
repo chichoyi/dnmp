@@ -1,6 +1,6 @@
 # why
 
-什么都可以docker化，docker化的环境开发、测试、部署等等，最后来个k8s管理更帅
+什么都可以docker化，docker化的php环境开发、测试、部署等等
 
 ## 前言
   使用前，默认你已经安装了 [docker](https://www.jianshu.com/search?q=docker%E5%AE%89%E8%A3%85&page=1&type=note) 和 [docker-compose](https://www.jianshu.com/p/f323aa0416da)
