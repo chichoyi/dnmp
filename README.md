@@ -88,9 +88,7 @@
     vi docker-compose.yml
     # 把42行和54行的 /Users/chenyinshan/code 修改为你本机的代码目录
 
-    cp nginx/demo.conf nginx/conf.d/defualt.conf
-
-    # vi defualt.conf   修改你自己的虚拟域名和目录,容器的目录默认是/www,
+    vi defualt.conf   修改你自己的虚拟域名和目录,容器的目录默认是/www,
     
     docker-compose up -d
     
