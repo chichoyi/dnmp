@@ -10,8 +10,8 @@ services:
     - "3306:3306"
     volumes:
     - ./mysql/data:/var/lib/mysql
-    - ./mysql/conf:/etc/mysql/conf.d
-    - ./mysql/logs:/logs
+    - ./mysql/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+#    - ./mysql/logs:/logs
     environment:
     - MYSQL_ROOT_PASSWORD=root
     command: --default-authentication-plugin=mysql_native_password #支持远程访问
