@@ -26,6 +26,7 @@ services:
     volumes:
     - ./redis/data:/data
     - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server --requirepass a(&sabh928437   #设置密码
     ports:
     - "6379:6379"
     networks:
@@ -45,7 +46,6 @@ services:
       - ./phpfpm/conf/php.ini:/usr/local/etc/php/php.ini:ro
       - ./phpfpm/conf/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./phpfpm/conf/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./composer:/data
     networks:
       - lnmp
 
