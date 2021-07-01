@@ -110,6 +110,9 @@
     
     sudo chmod -R 777 dnmp
     
+    # 实践证明，有一些文件不可给最高权限，比如
+    # ./mysql/conf/mysqld.cnf 建议给644即可，不然mysql容器会自动忽略，影响你的配置生效
+    
 ## 如何composer安装php项目依赖包
 
     docker run --rm --interactive --tty \
